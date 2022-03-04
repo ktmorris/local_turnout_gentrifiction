@@ -1,12 +1,17 @@
 ---
-title: "There Votes the Neighborhood: Gentrification, Displacement, and Political Participation"
+title: "There Votes the Neighborhood: Gentrification, Displacement, and Political Participation in Atlanta"
 subtitle: ""
 thanks: ##The authors thanks Many People for their comments on this project. All errors are our responsibility.##
 author:
 - Kevin Morris^[PhD Student, CUNY Graduate Center, Department of Sociology (kmorris@gradcenter.cuny.edu)]
 institute: "Brennan Center for Justice"
 date: "`r format(Sys.time(), '%B %d, %Y')`" 
-output: word_document
+output:
+  bookdown::pdf_document2:
+    toc: no
+    fig_caption: yes
+    latex_engine: xelatex
+    keep_tex: true
 bibliography: "gentrification_turnout.bib"
 link-citations: yes
 fontsize: 12pt
@@ -118,19 +123,61 @@ There are other potential issues with the use of voter file data. For instance, 
 
 Finally, as with much administrative data, the interpretation of an individual who falls out of the dataset over the study period is not entirely straightforward. There are multiple reasons an individual might have been registered in 2010 but no longer be on the rolls in 2020. They may have died; they may have been convicted of a felony; they may have moved out of the state; or they may have simply withdrawn from the democratic process. Although we cannot tell *why* individuals in Georgia are removed from the voter roll, their absence is nonetheless an important political outcome. Should we find that individuals who lived in gentrifying neighborhoods are disproportionately likely to no longer be registered in 2020, we can still make important conclusions about structural forces pushing these individuals out of the body politic, despite an inability to pinpoint the exact mechanism.
 
-## Methods {-}
+## Census Block Group Data {-}
 
-I begin by identifying all voters who lived in *potentially* gentrifying neighborhoods in 2010. For this study, I leverage the definition proposed by XXX. Discuss what makes gentrifiable and what makes actually gentrified over the following decade.
+Throughout these analyses, I am interested in housing and demographic change at the neighborhood level, using Census block groups as the unit of analysis. Neighborhood demographics are constructed using data from the 5-year American Communities Survey from the US Census Bureau.
 
-I then separate this set of individuals who lived in gentrifiable neighborhoods into two sets: those who lived in neighborhoods that actually went on to gentrify over the next decade, and those who lived in neighborhoods that did not. Voters are considered "treated" if they fall in the first group. Each treated voter is then matched using what methodologists call a "genetic" process [@Sekhon2011] with one voter from the set of potential controls along a battery of observables at both the individual and neighborhood level. Voters are matched according to their turnout in the XXX [each general federal and local election from 2000 to 2010] elections; their age, gender, and race; and the median income and average collegiate attainment from their census tract according to the 2006-2010 5-year ACS survey.
+As much of the recent scholarship on gentrification has pointed out, gentrifying neighborhoods are characterized along two dimensions: they must 1) *start* from a position of economic deprivation relative to the rest of the city, and 2) they must "exhibit[] socioeconomic upgrading" [@Hwang2020, 369]. In this study, block groups are considered gentrifiable if their median income in the base year (according to the 2006--2010 ACS survey) was lower than the city-wide median income. I use @Hwang2020's definition of socioeconomic upgrading to identify the neighborhoods that actually gentrified: block groups are considered gentrifying if they experienced an above-average growth between 2010 and 2020 A) in median gross rent or median home value, and B) in the share of the population with a college education. It is worth noting that such an approach does not consider the political implications of gentrification that occurred *before* 2010; neighborhoods that had already gentrified, and thus perhaps had an above-average income in 2010, are not considered gentrifiable.
 
-Having identified the pool of all voters "treated" by gentrification and a set of control voters that closely mirror them, I estimate a multinomial logistic regression that tests whether---or where---treated voters move over the ensuing decade, according to the 2020 snapshot of the registered voter file. Specifically, this model asks whether they stayed at the same address; moved, but stayed in the same neighborhood; moved within Atlanta; moved out of Atlanta, but stayed within the state of Georgia; or dropped out of the registered voter file.
+Figure \ref{fig:maps}(a) plots the three categories to which neighborhoods are assigned: gentrified, potentially gentrifiable, and ungentrifiable. The map makes two things immediately clear: first, the northern half of Atlanta, home to the affluent Buckhead district, had markedly higher incomes than the southern half in 2010, rendering this part of the city ineligible for gentrification. The economic segregation is stark: virtually no neighborhoods in North Atlanta had below-average incomes in 2010, while virtually every neighborhood in the south did. Figure \ref{fig:maps} also makes clear that the neighborhoods that went on to gentrify were largely "buffer" neighborhoods---block groups that were gentrifiable, but immediately adjacent to neighborhoods with higher-than-average incomes in 2010.
 
-After exploring the residential mobility effects of living in a gentrifying neighborhood, I test the treatment effect of living in a gentrifying / gentrified neighborhood of participation in electoral politics. Specifically, I use a difference-in-differences design to test whether the treated individuals became more or less likely to vote---relative to their controls, whose baseline turnout mirrored theirs---over the 2010--2020 period. I also explore whether there is evidence of racial heterogeneity in these treatment effects, and whether moving from or staying in a gentrified neighborhood uniquely (de)politicized residents.
+Figure \ref{fig:maps}(b) demonstrates that neighborhoods that were gentrifiable in 2010 were also home to far larger Black populations than the neighborhoods with above-average incomes. As a reminder, the defintion of gentrifiable relies *only on income*; the base-year racial composition is not part of the neighborhood assignment. Nevertheless, the definition clearly identifies racial differences by neighborhoods.
 
-**NB: VAN: I WOULD LIKE YOUR FEEDBACK ON THE FOLLOWING PARAGRAPH. I'M NOT SURE IF I'M UNNECCESSARILY LIMITING MYSELF BY INCLUDING IT. BY MATCHING ON PRE-TREATMENT TURNOUT AND ESTABLISHING THAT THE PARALLEL TRENDS ASSUMPTION IN REASONABLE, I ACTUALLY THINK I CAN MAKE CAUSAL CLAIMS ABOUT THE EFFECT OF LIVING IN A NEIGHBORHOOD THAT GENTRIFIED. THIS SEEMS BETTER SUITED FOR THE DISCUSSION, WHERE I CAN TALK ABOUT LIMITATIONS / WONDER WHETHER TREATED AND CONTROL VOTERS REALLY MIRRORED ONE ANOTHER IN ALL IMPORTANT WAYS. I'M ALSO CHEWING ON WHETHER THE DIFFERENTIAL TIMING OF GENTRIFICATION IN DIFFERENT NEIGHBORHOODS CAN BE LEVERAGED IN INTERESTING WAYS.
+```{r maps, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:maps}Neighborhood Classification and 2010 Racial Composition", fig.pos = "H", fig.align = "center"}
+f <- readRDS("temp/map_fig.rds")
+f
+```
 
-It is important to note the limitations to any causal claims available under this analytical framework. Although I will be looking at the outcomes---political and residential---of individuals who mirrored one another according to *observable* characteristics in 2010, there is reason to believe that individuals "treated" by gentrification may have differed in important ways from their respective controls. Gentrification, as discussed extensively above, is a political phenomenon that operates at the neighborhood level; neighborhoods are, of course comprised of their individual residents. Neighborhoods that were gentrifiable---but did not go on to gentrify---may have had more cohesive social networks or stronger community institutions that were able to resist residential turnover; these factors are of course associated with political involvement. The causal claims in this study, therefore, rely on the fairly strict assumption that treated and control voters did not differ in meaningful ways. However, even if we consider this assumption too strong, this project provides insight into the different political trajectories taken by neighborhoods that do and do not gentrify. Finally, because I match treated and control voters on pre-treatment turnout, I am directly controlling for any differences in electoral participation prior to 2010. This should account for any underlying differences in political engagement in the period before one set of voters was treated by gentrification.
+In Table \ref{tab:pre-demos}, I present the individual-level characteristics of the voters who fall into each of these three neighborhood types in 2010. Although the age and, to a lesser extent, gender compositions of the neighborhoods are roughly comparable, the similarities end here. While it comes as no surprise that non-gentrifiable neighborhoods in 2010 were whiter, higher-income, and lived in areas with higher home values, the distinctions between the gentrified and gentrifiable neighborhoods bear further scrutiny. While the neighborhoods had similar incomes, the neighborhoods that actually went on to gentrify were considerably less Black than those that did not gentrify. This perhaps points to gentrifier preference for less-Black neighborhoods, a finding corroborated in other scholarship [CITE]. Of particular note is that gentrified neighborhoods had *lower* rents but *higher* home values in 2010. This could point to the "rent gap" identified by @Stein2019 discussed above.
+
+\begin{singlespace}
+```{r pre-demo-tab-full, echo = F}
+t <- readRDS("./temp/pre_demos.rds")
+j <- knitr::kable(t, booktabs = T, caption = "(\\#tab:pre-demos) Demographics by Neighborhood Category, 2010", linesep = "") %>% 
+    kable_styling(latex_options = c("hold_position"))
+j
+```
+\end{singlespace}
+
+# Residential Moves {-}
+
+I now ask a series of questions central to gentrification studies: are individuals who live in neighborhoods that gentrify more likely to move, or do they remain in place, able to enjoy the potential increase in benefits that attend to a newly-affluent community? And, for those who do leave gentrifying neighborhoods behind, do they leverage some of the increased value in their old community and move to higher-income neighborhoods? Or are they pushed to other low-income neighborhoods?
+
+To untangle these questions, I use a number of multinomial logistic regressions. In each of the models, I limit the pool to registered voters who lived in neighborhoods that were gentrifiable in 2010, testing whether the outcomes for voters who lived in neighborhoods that gentrified ("treated" voters) differed systematically from those who lived in neighborhoods that did not ("control" voters). In the first model, presented in Figure \ref{fig:move-multi}, I test whether treated voters were more likely to remain at their 2010 address, move within Atlanta, move outside of Georgia but within Atlanta, or drop out of the administrative records. In the first row, I present the simple means for each group. In the second row of the figure, I include a set of covariates (age; race; gender; registration date, to control for how up-to-date the administrative record is; and neighborhood income, rent, share renters, and home value in 2010). These covariates are held at their means in the plot; the full regression tables can be found in the Supplementary Information (SI).
+
+```{r move-marg, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:move-multi}Predicted Probabilities of Residential Moves", fig.pos = "H", fig.align = "center"}
+f <- readRDS("temp/move_marg.rds")
+f
+```
+
+After controlling for covariates, voters in gentrified neighborhoods were *no more likely* to move than voters who lived in gentrifiable neighborhoods that did not undergo the same level of socioeconomic upgrading. Among the three-quarters of voters who moved, however, there were systematic differences in where they ended up: voters leaving gentrified neighborhoods were more likely to make short moves of 10 miles or less; voters leaving gentrifiable neighborhoods, on the other hand, were more likely to drop out of the data entirely, probably indicating that they moved out-of-state; regardless of the reason for not being observed in the data in 2020, control voters were less likely to be part of the registered electorate in Georgia 10 years later. Only a relatively small share of each group (less than 20%) moved more than 10 miles within Georgia.
+
+Having established that treated voters were no more likely to move than untreated voters over the 2010--2020 decade, I now ask whether---conditional on moving within Georgia---treated voters moved to different types of neighborhoods than control voters. In Figure \ref{fig:marg-inc} I explore how the income of the destination neighborhood compared to the original neighborhood. If a voter moved to a neighborhood with an identical median income, this outcome variable would take the value 100%.
+
+```{r move-inc, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:marg-inc}Predicted Income Based on Origin Neighborhood Type", fig.pos = "H", fig.align = "center"}
+f <- readRDS("temp/income_mef.rds")
+f
+```
+
+```{r to-1, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:local-turnout-plot}Turnout in Local Races", fig.pos = "H", fig.align = "center"}
+f <- readRDS("temp/local_turnout_timeseries.rds")
+f
+```
+
+```{r to-2, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:local-turnout-plot}Estimated Turnout Effects", fig.pos = "H", fig.align = "center"}
+f <- readRDS("temp/local_cints.rds")
+f
+```
 
 \newpage
 

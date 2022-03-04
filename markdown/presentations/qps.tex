@@ -1,0 +1,318 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{Berlin}
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={There Votes the Neighborhood},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{There Votes the Neighborhood}
+\subtitle{Gentrification, Residential Mobility, and Political
+Participation in Atlanta}
+\author{Kevin Morris}
+\date{}
+\institute{CUNY Graduate Center, Sociology}
+
+\begin{document}
+\frame{\titlepage}
+\begin{abstract}
+\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}}
+\end{abstract}
+
+\begin{frame}{Gentrification as a State Practice}
+\protect\hypertarget{gentrification-as-a-state-practice}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  In recent years, scholars have increasingly noted the role played by
+  the state in both the economic deterioration of American cities in the
+  second half of the 20th century (e.g. Sugrue 1998) and the inflows of
+  capital and agents of displacement in the 21st (e.g. Stein 2019).
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Fights over rezonings in places like New York City (Haag 2019), and
+  improved public goods in places like Atlanta (Lartey 2018) have thrown
+  the consequences of the state's (in)action into stark relief.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Although gentrification is not possible without participation from the
+  state, scholars have not investigated how the experience of
+  gentrification influences citizen identity formation and political
+  participation (Thorpe 2021; but see Knotts and Haspel 2006).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Political Threat}
+\protect\hypertarget{political-threat}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  On the one hand, sociological and political science theory predicts
+  that gentrification would \emph{increase} political participation.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Political threat can lead citizens to participate at higher rates
+  (e.g. Zepeda-Millán 2016).
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  A growing body of qualitative work explores how local communities form
+  networks capable of resisting displacement through engagement with
+  local government (Betancur 2002; Martin 2007).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Social Cohesion}
+\protect\hypertarget{social-cohesion}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  On the other hand, political scientists have long noted that
+  individuals who feel strongly connected to their communities
+  participate at higher rates (Riker and Ordeshook 1968; Verba,
+  Schlozman, and Brady 1995).
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Gentrification can lead to lower levels of social cohesion (Zukin et
+  al. 2009; Holmes 2020).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Empirical Framework}
+\protect\hypertarget{empirical-framework}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  I use multiple geocoded snapshots of the registered voter file in
+  Atlanta between 2010 and 2020 to track individuals' mobility and
+  participation patterns. Atlanta has a very high registration rate
+  (Niesse 2021) and relatively small noncitizen population.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  I start by identifying \emph{gentrifiable} neighborhoods in 2010. I
+  then construct matched pairs of voters, where one lived in a
+  neighborhood that went on to gentrify (i.e., was ``treated'' by
+  gentrification) while the other's neighborhood did not.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  I'll investigate mobility patterns \emph{and} effects of experiencing
+  gentrification on political participation. These effects will be
+  explored separately for individuals who moved out of their 2010
+  neighborhood and for those who stayed.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thanks!}
+\protect\hypertarget{thanks}{}
+\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+\protect\hypertarget{references}{}
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-Betancur2002}{}%
+Betancur, John. 2002. {``The {Politics} of {Gentrification}: The {Case}
+of {West Town} in {Chicago}.''} \emph{Urban Affairs Review} 37 (6):
+780--814. \url{https://doi.org/10.1177/107874037006002}.
+
+\leavevmode\hypertarget{ref-Haag2019}{}%
+Haag, Matthew. 2019. {``It's {Manhattan}'s {Last Affordable
+Neighborhood}. {But} for {How Long}?''} \emph{The New York Times: New
+York}, September 27, 2019.
+\url{https://www.nytimes.com/2019/09/27/nyregion/its-manhattans-last-affordable-neighborhood-but-for-how-long.html}.
+
+\leavevmode\hypertarget{ref-Holmes2020}{}%
+Holmes, Kristin E. 2020. {``Religious Agency in the Dynamics of
+Gentrification: Moving in, Moving Out, and Staying Put in
+{Philadelphia}.''} In \emph{The {Routledge Handbook} of {Religion} and
+{Cities}}. {Routledge}.
+
+\leavevmode\hypertarget{ref-Knotts2006}{}%
+Knotts, H. Gibbs, and Moshe Haspel. 2006. {``The {Impact} of
+{Gentrification} on {Voter Turnout}.''} \emph{Social Science Quarterly}
+87 (1): 110--21. \url{http://www.jstor.org/stable/42956112}.
+
+\leavevmode\hypertarget{ref-Lartey2018}{}%
+Lartey, Jamiles. 2018. {``Nowhere for People to Go: Who Will Survive the
+Gentrification of {Atlanta}?''} \emph{The Guardian: Cities}, October 23,
+2018.
+\url{http://www.theguardian.com/cities/2018/oct/23/nowhere-for-people-to-go-who-will-survive-the-gentrification-of-atlanta}.
+
+\leavevmode\hypertarget{ref-Martin2007a}{}%
+Martin, Leslie. 2007. {``Fighting for {Control}: Political
+{Displacement} in {Atlanta}'s {Gentrifying Neighborhoods}.''}
+\emph{Urban Affairs Review} 42 (5): 603--28.
+\url{https://doi.org/10.1177/1078087406296604}.
+
+\leavevmode\hypertarget{ref-Niesse2021a}{}%
+Niesse, Mark. 2021. {``Almost All Eligible {Georgians} Are Registered to
+Vote, Data Show.''} \emph{The Atlanta Journal-Constitution: Politics},
+July 19, 2021.
+
+\leavevmode\hypertarget{ref-Riker1968}{}%
+Riker, William H., and Peter C. Ordeshook. 1968. {``A {Theory} of the
+{Calculus} of {Voting}.''} \emph{The American Political Science Review}
+62 (1): 25--42. \url{https://doi.org/10.2307/1953324}.
+
+\leavevmode\hypertarget{ref-Stein2019}{}%
+Stein, Samuel. 2019. \emph{Capital City: Gentrification and the Real
+Estate State}. Jacobin Series. {London ; Brooklyn, NY}: {Verso}.
+
+\leavevmode\hypertarget{ref-Sugrue1998}{}%
+Sugrue, Thomas J. 1998. \emph{The Origins of the Urban Crisis: Race and
+Inequality in Postwar {Detroit}}. 1st paperback ed. Princeton Studies in
+{American} Politics. {Princeton, N.J}: {Princeton University Press}.
+
+\leavevmode\hypertarget{ref-Thorpe2021}{}%
+Thorpe, Amelia. 2021. {``Regulatory Gentrification: Documents,
+Displacement and the Loss of Low-Income Housing.''} \emph{Urban Studies}
+58 (13): 2623--39. \url{https://doi.org/10.1177/0042098020960569}.
+
+\leavevmode\hypertarget{ref-Verba1995}{}%
+Verba, Sidney, Kay Lehman Schlozman, and Henry E. Brady. 1995.
+\emph{Voice and {Equality}: Civic {Voluntarism} in {American Politics}}.
+{Harvard University Press}.
+\url{http://books.google.com?id=RUkvEAAAQBAJ}.
+
+\leavevmode\hypertarget{ref-Zepeda-Millan2016}{}%
+Zepeda-Millán, Chris. 2016. {``Weapons of the ({Not So}) {Weak}:
+Immigrant {Mass Mobilization} in the {US South}.''} \emph{Critical
+Sociology} 42 (2): 269--87.
+\url{https://doi.org/10.1177/0896920514527846}.
+
+\leavevmode\hypertarget{ref-Zukin2009}{}%
+Zukin, Sharon, Valerie Trujillo, Peter Frase, Danielle Jackson, Tim
+Recuber, and Abraham Walker. 2009. {``New {Retail Capital} and
+{Neighborhood Change}: Boutiques and {Gentrification} in {New York
+City}.''} \emph{City \& Community} 8 (1): 47--64.
+\url{https://doi.org/10.1111/j.1540-6040.2009.01269.x}.
+
+\end{CSLReferences}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,66 @@
+---
+title: "There Votes the Neighborhood"
+subtitle: "Gentrification, Residential Mobility, and Political Participation in Atlanta"
+shorttitle: "Other"
+author: Kevin Morris
+abstract: kevin.morris@nyu.edu
+institute: CUNY Graduate Center, Sociology
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: "Berlin"
+    keep_tex: true
+classoption: "aspectratio=169"
+bibliography: "../gentrification_turnout.bib"
+---
+```{r setup, echo = F, message = F, warning = F}
+knitr::opts_knit$set(dev = "cairo_pdf")
+library(systemfit)
+library(AER)
+library(sandwich)
+library(lmtest)
+library(scales)
+library(tidyverse)
+library(extrafont)
+library(kableExtra)
+library(data.table)
+library(stargazer)
+loadfonts()
+```
+
+## Gentrification as a State Practice
+
+>* In recent years, scholars have increasingly noted the role played by the state in both the economic deterioration of American cities in the second half of the 20th century [e.g. @Sugrue1998] and the inflows of capital and agents of displacement in the 21st [e.g. @Stein2019].
+
+>* Fights over rezonings in places like New York City [@Haag2019], and improved public goods in places like Atlanta [@Lartey2018] have thrown the consequences of the state's (in)action into stark relief.
+
+>* Although gentrification is not possible without participation from the state, scholars have not investigated how the experience of gentrification influences citizen identity formation and political participation [@Thorpe2021; but see @Knotts2006].
+
+## Political Threat
+
+>* On the one hand, sociological and political science theory predicts that gentrification would *increase* political participation.
+
+>* Political threat can lead citizens to participate at higher rates [e.g. @Zepeda-Millan2016].
+
+>* A growing body of qualitative work explores how local communities form networks capable of resisting displacement through engagement with local government [@Betancur2002; @Martin2007a].
+
+## Social Cohesion
+
+>* On the other hand, political scientists have long noted that individuals who feel strongly connected to their communities participate at higher rates [@Riker1968; @Verba1995].
+
+>* Gentrification can lead to lower levels of social cohesion [@Zukin2009; @Holmes2020].
+
+## Empirical Framework
+
+>* I use multiple geocoded snapshots of the registered voter file in Atlanta between 2010 and 2020 to track individuals' mobility and participation patterns. Atlanta has a very high registration rate [@Niesse2021a] and relatively small noncitizen population.
+
+>* I start by identifying *gentrifiable* neighborhoods in 2010. I then construct matched pairs of voters, where one lived in a  neighborhood that went on to gentrify (i.e., was "treated" by gentrification) while the other's neighborhood did not.
+
+>* I'll investigate mobility patterns *and* effects of experiencing gentrification on political participation. These effects will be explored separately for individuals who moved out of their 2010 neighborhood and for those who stayed.
+
+
+## Thanks!
+
+kevin.morris@nyu.edu
+
+## References {.allowframebreaks}

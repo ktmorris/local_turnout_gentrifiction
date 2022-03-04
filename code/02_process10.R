@@ -13,7 +13,8 @@ colnames(f10) <- fread("raw_data/GA-2010/GA/09-27-10/colnames_2010.csv", header 
 
 f10 <- select(f10, VOTER_FIRST_NAME, VOTER_LAST_NAME,
               REGISTRATION_NBR, DATE_OF_BIRTH, RACE, GENDER,
-              RES_HOUSE_NBR, RES_STREET_NAME, RES_ZIPCODE, PARTY_LAST_VOTED)
+              RES_HOUSE_NBR, RES_STREET_NAME, RES_ZIPCODE, PARTY_LAST_VOTED,
+              REGISTRATION_DATE)
 
 f10 <- f10 %>% 
   mutate(street = paste(RES_HOUSE_NBR, RES_STREET_NAME))
@@ -191,6 +192,9 @@ fort <- left_join(fort, ll)
 
 saveRDS(fort, "temp/map_data.rds")
 
+fort <- readRDS("temp/map_data.rds")
+f10 <- readRDS("temp/processed_10.rds")
+
 p1 <- ggplot() + 
   geom_polygon(data = filter(fort, !is.na(group), GEOID %in% f10$GEOID),
                aes(x = long, y = lat, group = group, fill = set),
@@ -206,7 +210,8 @@ p1 <- ggplot() +
         legend.position = "bottom") +
   scale_fill_manual(values = c("white", "gray", "black")) +
   guides(fill = guide_legend(title.position = "top", title.hjust = 0.5)) +
-  labs(fill = "Group")
+  labs(fill = "Group\n") +
+  ggtitle("(a) Neighborhood Classification")
 p1
 saveRDS(p1, "temp/gentrification_map.rds")
 
@@ -223,7 +228,8 @@ p2 <- ggplot(filter(fort, !is.na(group)), aes(x = long, y = lat, group = group, 
         legend.position = "bottom") +
   scale_fill_gradient(low = "white", high = "black", labels = percent) +
   guides(fill = guide_colorbar(title.position = "top", title.hjust = 0.5)) +
-  labs(fill = "Share Black, 2010")
+  labs(fill = "Share Black, 2010") +
+  ggtitle("(b) Share Black in 2010")
 p2
 saveRDS(p2, "temp/black_map.rds")
 
@@ -243,3 +249,7 @@ p3 <- ggplot(filter(fort, !is.na(group)), aes(x = long, y = lat, group = group, 
   labs(fill = "Share Democrats")
 p3
 saveRDS(p3, "temp/dem_map.rds")
+
+
+maps <- plot_grid(p1, p2)
+saveRDS(maps, "temp/map_fig.rds")

@@ -17,6 +17,13 @@ r20 <- left_join(r20, addresses[, c(38, 39, 9, 5, 6)] %>%
 
 r20 <- filter(r20, is.finite(lat), is.finite(lon))
 ###############
+p <- places("GA", class = "sp")
+p <- subset(p, NAME == "Atlanta")
+
+pings  <- SpatialPoints(select(r20, lon, lat),
+                        proj4string = p@proj4string)
+
+r20$at_20 <- !is.na(over(pings, p)$GEOID)
 
 tracts <- tracts("GA", year = 2019, class = "sp")
 
@@ -26,7 +33,7 @@ pings  <- SpatialPoints(r20[,c("lon", "lat")],
 r20$GEOID_20 <- over(pings, tracts)$GEOID
 
 r20 <- select(r20, REGISTRATION_NBR = REGISTRATION_NUMBER,
-              lat_20 = lat, lon_20 = lon, GEOID_20)
+              lat_20 = lat, lon_20 = lon, GEOID_20, at_20)
 
 f10 <- left_join(f10 %>% 
                    mutate(REGISTRATION_NBR = as.integer(REGISTRATION_NBR)), r20)
@@ -79,3 +86,5 @@ ll <- f10 %>%
             at20 = mean(at20, na.rm = T),
             dist = mean(dist, na.rm = T),
             inc_10 = mean(median_income_2010, na.rm = T))
+
+saveRDS(f10, "temp/combine_10_20.rds")
