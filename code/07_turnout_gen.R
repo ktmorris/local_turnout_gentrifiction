@@ -25,6 +25,7 @@ if(on_nyu){
 full_set <- readRDS("temp/pre_match.rds") %>% 
   filter(potential) %>% 
   mutate(yob = as.integer(substring(DATE_OF_BIRTH, 1, 4)),
+         at_20 = ifelse(is.na(at_20), F, at_20),
          black = 1*(RACE == "B"),
          white = 1*(RACE == "W"),
          reg_date = as.Date(as.character(REGISTRATION_DATE), "%Y%m%d"),
@@ -33,7 +34,7 @@ full_set <- readRDS("temp/pre_match.rds") %>%
          dist = dist * 0.000621371,
          dist = ifelse(is.na(dist), 999999999999, dist),
          moved = ifelse(dist < 1, 1,
-                        ifelse(dist < 10, 2,
+                        ifelse(at_20, 2,
                                ifelse(dist < 999999999999, 3, 4)))) %>% 
   select(reg_num = REGISTRATION_NBR,
          yob, black, white, reg_date, male,

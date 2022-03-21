@@ -3,6 +3,7 @@
 full_set <- readRDS("temp/pre_match.rds") %>% 
   filter(potential) %>% 
   mutate(yob = as.integer(substring(DATE_OF_BIRTH, 1, 4)),
+         at_20 = ifelse(is.na(at_20), F, at_20),
          black = 1*(RACE == "B"),
          white = 1*(RACE == "W"),
          reg_date = as.Date(as.character(REGISTRATION_DATE), "%Y%m%d"),
@@ -32,7 +33,7 @@ X = slim_set %>%
   ungroup() %>% 
   select(moved, black, white, male, starts_with("to_"),
          everything(), -gfied, -reg_num)
-# 
+
 # genout <- readRDS("./temp/genout_to50p.rds")
 # 
 # mout <- Match(Tr = Tr, X = X, Weight.matrix = genout, ties = F,
@@ -63,7 +64,7 @@ matches <- matches %>%
   mutate(race = ifelse(white, "White",
                        ifelse(black, "Black",
                               "Other")))
-cleanup("matches")
+cleanup("matches", "full_set", "mout")
 
 saveRDS(matches, "temp/to_matches_clean.rds")
 #####
@@ -78,15 +79,15 @@ ll <- matches %>%
   mutate(moved = ifelse(moved == 1,
                         "Did Not Move",
                         ifelse(moved == 2,
-                               "Moved < 10 Miles",
+                               "Moved in Atlanta",
                                ifelse(moved == 3,
-                                      "Moved > 10 Miles",
+                                      "Moved out of Atlanta",
                                       "Out of Data"))),
          treated = ifelse(treated, "Treated", "Control"))
 
 ll$moved <- factor(ll$moved, levels = c("Did Not Move",
-                                        "Moved < 10 Miles",
-                                        "Moved > 10 Miles",
+                                        "Moved in Atlanta",
+                                        "Moved out of Atlanta",
                                         "Out of Data"))
 
 ll$treated <- factor(ll$treated, levels = c("Treated", "Control"))
@@ -115,19 +116,38 @@ ll <- matches %>%
   mutate(moved = ifelse(moved == 1,
                         "Did Not Move",
                         ifelse(moved == 2,
-                               "Moved < 10 Miles",
+                               "Moved in Atlanta",
                                ifelse(moved == 3,
-                                      "Moved > 10 Miles",
+                                      "Moved out of Atlanta",
                                       "Out of Data"))),
          treated = ifelse(treated, "Treated", "Control"))
 
+ll2 <- matches %>%  
+  group_by(treated, moved) %>% 
+  summarize(across(starts_with("to_"), mean)) %>% 
+  pivot_longer(starts_with("to_")) %>% 
+  mutate(name = as.integer(substring(name, 4, 5)) + 2000) %>% 
+  filter(!(name %in% c(2003, 2007, 2011, 2015, 2019)),
+         name %% 2 == 1) %>% 
+  mutate(moved = ifelse(moved == 1,
+                        "Did Not Move",
+                        ifelse(moved == 2,
+                               "Moved in Atlanta",
+                               ifelse(moved == 3,
+                                      "Moved out of Atlanta",
+                                      "Out of Data"))),
+         treated = ifelse(treated, "Treated", "Control"),
+         race = "Overall")
+
+ll <- bind_rows(ll, ll2)
+
 ll$moved <- factor(ll$moved, levels = c("Did Not Move",
-                                        "Moved < 10 Miles",
-                                        "Moved > 10 Miles",
+                                        "Moved in Atlanta",
+                                        "Moved out of Atlanta",
                                         "Out of Data"))
 
 ll$treated <- factor(ll$treated, levels = c("Treated", "Control"))
-ll$race <- factor(ll$race, levels = c("Black", "White", "Other"))
+ll$race <- factor(ll$race, levels = c("Black", "White", "Other", "Overall"))
 
 time_series <- ggplot(ll, aes(x = name, y = value, linetype = treated,
                               shape = treated)) + geom_line() + geom_point() +
@@ -140,7 +160,7 @@ time_series <- ggplot(ll, aes(x = name, y = value, linetype = treated,
        linetype = "Treatment Group",
        shape = "Treatment Group") +
   scale_y_continuous(labels = percent, breaks = seq(0, 0.5, 0.2))
-
+time_series
 saveRDS(time_series, "temp/local_turnout_timeseries.rds")
 
 ###################################
@@ -168,7 +188,7 @@ for(r in c("White", "Black", "Other", "Overall")){
                     year %% 2 == 1)
       }else{
         d <- filter(m_long, race == r, moved == m,
-                  year %% 2 == 1)
+                    year %% 2 == 1)
       }
       if(t == 1){
         nm <- feols(turnout ~ tp | year + GEOID, data = d,
@@ -210,18 +230,18 @@ cints <- cints %>%
          moved = ifelse(moved == 1,
                         "Did Not Move",
                         ifelse(moved == 2,
-                               "Moved < 10 Miles",
+                               "Moved in Atlanta",
                                ifelse(moved == 3,
-                                      "Moved > 10 Miles",
+                                      "Moved out of Atlanta",
                                       "Out of Data"))),
          covs = ifelse(covs, "Inc. Covariates", "No Covariates"))
 
 cints$race <- factor(cints$race, levels = rev(c("Black", "White", "Other", "Overall")))
 cints$covs <- factor(cints$covs, levels = c("No Covariates", "Inc. Covariates"))
 cints$moved <- factor(cints$moved, levels = c("Did Not Move",
-                                        "Moved < 10 Miles",
-                                        "Moved > 10 Miles",
-                                        "Out of Data"))
+                                              "Moved in Atlanta",
+                                              "Moved out of Atlanta",
+                                              "Out of Data"))
 
 local_cints <- ggplot(cints) +
   facet_grid(. ~ moved) +
@@ -238,10 +258,27 @@ local_cints <- ggplot(cints) +
   theme_bc(base_family = "LM Roman 10",
            legend.position = "bottom",
            legend.title = element_blank()) +
-  labs(x = "Estimated Turnout Effect", y = "Race") +
+  labs(x = "Estimated Turnout Effect", y = "Race",
+       caption = "Models including covariates include gender, age, and registration date.") +
   guides(linetype = guide_legend(title.position = "top", title.hjust = 0.5)) +
   scale_color_manual(values = c("#9F142C", "black"))
 
 saveRDS(local_cints, "temp/local_cints.rds")
 
 
+################################
+cleanup("matches", "full_set", "mout")
+
+full_set <- left_join(full_set,
+                      matches %>% 
+                        group_by(reg_num = voter) %>% 
+                        tally()) %>% 
+  mutate(n = ifelse(is.na(n), 0, n))
+
+ll <- full_set %>% 
+  group_by(gfied) %>% 
+  summarize(across(c(yob, black, white, reg_date, male,
+                     ends_with("_2010"),
+                     to_01, to_02, to_04, to_05, to_06, to_08, to_09),
+                   list(m = ~ mean(., na.rm = T),
+                        w = ~ weighted.mean(., n, na.rm = T))))

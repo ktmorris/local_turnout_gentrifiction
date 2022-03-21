@@ -34,7 +34,7 @@ ll <- tsr %>%
 
 ll$tr <- factor(ll$tr, levels = c("Treated", "Control"))
 
-ggplot(filter(ll, !grepl("mean", race)),
+plot_race <- ggplot(filter(ll, !grepl("mean", race)),
        aes(x = year, y = share,
            color = tr, linetype = tr, shape = tr)) +
   facet_grid(. ~ race, labeller = as_labeller(c(`nh_black_weighted` = "Nonhispanic Black",
@@ -50,6 +50,9 @@ ggplot(filter(ll, !grepl("mean", race)),
        linetype = NULL,
        shape = NULL,
        caption = "2000 estimates come from decennial census; others come from 5-year ACS estimates.
-Tract characteristics weighted by output of matching excersise.")
+Tract characteristics weighted by output of matching excersise.") +
+  scale_color_manual(values = c("#9F142C", "black"))
+plot_race
+saveRDS(plot_race, "temp/race_time_trend.rds")
 
 summary(lm(nh_black_2010 ~ treated, matches))

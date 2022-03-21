@@ -1,6 +1,7 @@
 ### these are all the packages we use throughout the project (there may be extra here)
 library(Matching)
 library(httr)
+library(mlogit)
 library(readxl)
 library(SearchTrees)
 library(nnet)
